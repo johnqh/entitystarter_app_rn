@@ -46,7 +46,7 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
   } = useHistoriesManager({
     baseUrl,
     networkClient,
-    userId,
+    entitySlug: userId,
     token,
   });
 

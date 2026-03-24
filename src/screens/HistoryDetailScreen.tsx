@@ -34,7 +34,7 @@ export default function HistoryDetailScreen({ route, navigation }: HistoryDetail
   } = useHistoriesManager({
     baseUrl,
     networkClient,
-    userId,
+    entitySlug: userId,
     token,
   });
 

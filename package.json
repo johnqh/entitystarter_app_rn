@@ -1,6 +1,6 @@
 {
   "name": "entitystarter_app_rn",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "displayName": "Starter App",
   "private": true,
   "scripts": {
@@ -33,15 +33,15 @@
     "@react-navigation/bottom-tabs": "^7.10.1",
     "@react-navigation/native": "^7.1.28",
     "@react-navigation/native-stack": "^7.10.1",
-    "@sudobility/auth_lib": "^0.0.62",
-    "@sudobility/building_blocks_rn": "^0.0.16",
-    "@sudobility/design": "^1.1.23",
-    "@sudobility/di": "^1.5.48",
-    "@sudobility/di_rn": "^0.1.59",
-    "@sudobility/entitystarter_client": "^0.0.15",
-    "@sudobility/entitystarter_lib": "^0.0.13",
-    "@sudobility/entitystarter_types": "^0.0.10",
-    "@sudobility/types": "^1.9.59",
+    "@sudobility/auth_lib": "^0.0.63",
+    "@sudobility/building_blocks_rn": "^0.0.19",
+    "@sudobility/design": "^1.1.24",
+    "@sudobility/di": "^1.5.49",
+    "@sudobility/di_rn": "^0.1.61",
+    "@sudobility/entitystarter_client": "^0.0.17",
+    "@sudobility/entitystarter_lib": "^0.0.15",
+    "@sudobility/entitystarter_types": "^0.0.16",
+    "@sudobility/types": "^1.9.60",
     "@tanstack/react-query": "^5.90.19",
     "expo": "~54.0.32",
     "expo-status-bar": "^3.0.9",
@@ -83,5 +83,10 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "license": "BUSL-1.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnqh/entitystarter_app_rn.git"
   }
 }
