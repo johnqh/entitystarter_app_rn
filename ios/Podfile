@@ -45,5 +45,15 @@ target 'StarterApp' do
         end
       end
     end
+
+    # Workaround: fmt pod fails to compile with Xcode 26 beta's stricter consteval handling.
+    # Redefine consteval as constexpr to avoid hard compilation errors.
+    installer.pods_project.targets.each do |target|
+      if target.name == 'fmt'
+        target.build_configurations.each do |config|
+          config.build_settings['OTHER_CPLUSPLUSFLAGS'] = '$(inherited) -Dconsteval=constexpr'
+        end
+      end
+    end
   end
 end
