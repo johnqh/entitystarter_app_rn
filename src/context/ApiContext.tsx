@@ -9,7 +9,7 @@
  * The token and userId are refreshed whenever the auth state changes.
  */
 
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useMemo, useRef } from 'react';
 import type { NetworkClient, NetworkResponse, NetworkRequestOptions, Optional } from '@sudobility/types';
 import { env } from '@/config/env';
 import { useAuth } from './AuthContext';
@@ -102,43 +102,85 @@ async function makeRequest<T>(
 }
 
 /**
+ * Wrap {@link makeRequest} with automatic 401 token-refresh retry logic.
+ *
+ * If the initial request returns a 401 status, the function calls
+ * `refreshTokenFn` to obtain a fresh token, then retries the request with
+ * the new `Authorization` header. If the refresh fails the original 401
+ * response is returned unchanged.
+ *
+ * @typeParam T - The expected shape of the successful response data.
+ * @param url - The fully-qualified URL to request.
+ * @param options - Optional request configuration (method, headers, body, signal).
+ * @param refreshTokenFn - Async function that returns a fresh token or `null`.
+ * @returns A {@link NetworkResponse} – either the original or the retried one.
+ */
+async function makeRequestWithRetry<T>(
+  url: string,
+  options: Optional<NetworkRequestOptions> | undefined,
+  refreshTokenFn: () => Promise<string | null>
+): Promise<NetworkResponse<T>> {
+  const result = await makeRequest<T>(url, options);
+  if (result.status === 401) {
+    console.log('[Network] 401 received, refreshing token and retrying...');
+    const freshToken = await refreshTokenFn();
+    if (freshToken) {
+      const retryOptions = {
+        ...options,
+        headers: {
+          ...options?.headers,
+          Authorization: `Bearer ${freshToken}`,
+        },
+      };
+      return makeRequest<T>(url, retryOptions);
+    }
+    console.warn('[Network] Token refresh failed, returning 401 response');
+  }
+  return result;
+}
+
+/**
  * Create a fetch-based {@link NetworkClient} that conforms to the
  * `@sudobility/types` interface.
  *
- * Each HTTP method delegates to {@link makeRequest}, automatically
- * serializing request bodies as JSON for `POST` and `PUT` requests.
+ * Each HTTP method delegates to {@link makeRequestWithRetry}, automatically
+ * serializing request bodies as JSON for `POST` and `PUT` requests and
+ * retrying on 401 after a token refresh.
  *
+ * @param refreshTokenRef - A React ref whose `.current` is a token-refresh function.
  * @returns A stateless {@link NetworkClient} instance.
  */
-const createNetworkClient = (): NetworkClient => ({
+const createNetworkClient = (
+  refreshTokenRef: React.RefObject<() => Promise<string | null>>
+): NetworkClient => ({
   request: <T,>(
     url: string,
     options?: Optional<NetworkRequestOptions>
-  ): Promise<NetworkResponse<T>> => makeRequest(url, options),
+  ): Promise<NetworkResponse<T>> => makeRequestWithRetry(url, options, refreshTokenRef.current),
 
   get: <T,>(
     url: string,
     options?: Optional<Omit<NetworkRequestOptions, 'method' | 'body'>>
-  ): Promise<NetworkResponse<T>> => makeRequest(url, { ...options, method: 'GET' }),
+  ): Promise<NetworkResponse<T>> => makeRequestWithRetry(url, { ...options, method: 'GET' }, refreshTokenRef.current),
 
   post: <T,>(
     url: string,
     body?: Optional<unknown>,
     options?: Optional<Omit<NetworkRequestOptions, 'method'>>
   ): Promise<NetworkResponse<T>> =>
-    makeRequest(url, { ...options, method: 'POST', body: body ? JSON.stringify(body) : undefined }),
+    makeRequestWithRetry(url, { ...options, method: 'POST', body: body ? JSON.stringify(body) : undefined }, refreshTokenRef.current),
 
   put: <T,>(
     url: string,
     body?: Optional<unknown>,
     options?: Optional<Omit<NetworkRequestOptions, 'method'>>
   ): Promise<NetworkResponse<T>> =>
-    makeRequest(url, { ...options, method: 'PUT', body: body ? JSON.stringify(body) : undefined }),
+    makeRequestWithRetry(url, { ...options, method: 'PUT', body: body ? JSON.stringify(body) : undefined }, refreshTokenRef.current),
 
   delete: <T,>(
     url: string,
     options?: Optional<Omit<NetworkRequestOptions, 'method' | 'body'>>
-  ): Promise<NetworkResponse<T>> => makeRequest(url, { ...options, method: 'DELETE' }),
+  ): Promise<NetworkResponse<T>> => makeRequestWithRetry(url, { ...options, method: 'DELETE' }, refreshTokenRef.current),
 });
 
 const ApiContext = createContext<ApiContextValue | null>(null);
@@ -150,8 +192,10 @@ const ApiContext = createContext<ApiContextValue | null>(null);
  * Must be rendered inside an {@link AuthProvider}.
  */
 export function ApiProvider({ children }: { children: React.ReactNode }) {
-  const { token, user, isReady, isLoading } = useAuth();
-  const networkClient = useMemo(() => createNetworkClient(), []);
+  const { token, user, isReady, isLoading, refreshToken } = useAuth();
+  const refreshTokenRef = useRef(refreshToken);
+  refreshTokenRef.current = refreshToken;
+  const networkClient = useMemo(() => createNetworkClient(refreshTokenRef), []);
 
   const value = useMemo<ApiContextValue>(() => ({
     networkClient,
