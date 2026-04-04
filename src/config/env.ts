@@ -1,33 +1,31 @@
 /**
  * Environment configuration
  *
- * Reads from process.env (injected by Metro / Expo at JS bundle time).
+ * Uses direct process.env.EXPO_PUBLIC_* access so Expo's babel plugin
+ * can inline/reference the values at bundle time. Do NOT use a helper
+ * function with dynamic keys — the babel plugin only matches the
+ * static pattern `process.env.EXPO_PUBLIC_*`.
  */
-
-const envObj = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
-const getEnv = (key: string, defaultValue: string = ''): string => {
-  return envObj[key] ?? defaultValue;
-};
 
 export const env = {
   // API URL
-  API_URL: getEnv('EXPO_PUBLIC_API_URL', 'http://localhost:8022'),
+  API_URL: process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8022',
 
   // App identity
-  APP_NAME: getEnv('VITE_APP_NAME', 'Starter App'),
-  APP_DOMAIN: getEnv('VITE_APP_DOMAIN', 'example.com'),
-  COMPANY_NAME: getEnv('VITE_COMPANY_NAME', 'My Company'),
+  APP_NAME: process.env.VITE_APP_NAME ?? 'Starter App',
+  APP_DOMAIN: process.env.VITE_APP_DOMAIN ?? 'example.com',
+  COMPANY_NAME: process.env.VITE_COMPANY_NAME ?? 'My Company',
 
   // Firebase
-  FIREBASE_API_KEY: getEnv('EXPO_PUBLIC_FIREBASE_API_KEY'),
-  FIREBASE_AUTH_DOMAIN: getEnv('EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN'),
-  FIREBASE_PROJECT_ID: getEnv('EXPO_PUBLIC_FIREBASE_PROJECT_ID'),
-  FIREBASE_STORAGE_BUCKET: getEnv('EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET'),
-  FIREBASE_MESSAGING_SENDER_ID: getEnv('EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID'),
-  FIREBASE_APP_ID: getEnv('EXPO_PUBLIC_FIREBASE_APP_ID'),
+  FIREBASE_API_KEY: process.env.EXPO_PUBLIC_FIREBASE_API_KEY ?? '',
+  FIREBASE_AUTH_DOMAIN: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN ?? '',
+  FIREBASE_PROJECT_ID: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID ?? '',
+  FIREBASE_STORAGE_BUCKET: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET ?? '',
+  FIREBASE_MESSAGING_SENDER_ID: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? '',
+  FIREBASE_APP_ID: process.env.EXPO_PUBLIC_FIREBASE_APP_ID ?? '',
 
   // Development
-  DEV_MODE: getEnv('EXPO_PUBLIC_DEV_MODE', 'false') === 'true',
+  DEV_MODE: (process.env.EXPO_PUBLIC_DEV_MODE ?? 'false') === 'true',
 };
 
 /** Firebase config object for the JS SDK (used on desktop) */
@@ -42,7 +40,7 @@ export const FIREBASE_CONFIG = {
 
 /** Google OAuth config for desktop PKCE flow */
 export const GOOGLE_OAUTH_CONFIG = {
-  clientId: getEnv('GOOGLE_OAUTH_CLIENT_ID'),
-  iosClientId: getEnv('GOOGLE_OAUTH_IOS_CLIENT_ID'),
-  reversedClientId: getEnv('GOOGLE_OAUTH_REVERSED_CLIENT_ID'),
+  clientId: process.env.GOOGLE_OAUTH_CLIENT_ID ?? '',
+  iosClientId: process.env.GOOGLE_OAUTH_IOS_CLIENT_ID ?? '',
+  reversedClientId: process.env.GOOGLE_OAUTH_REVERSED_CLIENT_ID ?? '',
 };
