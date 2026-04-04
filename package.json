@@ -1,10 +1,10 @@
 {
   "name": "entitystarter_app_rn",
-  "version": "1.0.29",
+  "version": "1.0.30",
   "displayName": "Starter App",
   "private": true,
   "scripts": {
-    "clean:metro": "rm -rf $TMPDIR/metro-* $TMPDIR/haste-map-*",
+    "clean:metro": "rm -rf $TMPDIR/metro-* $TMPDIR/haste-map-* || true",
     "prestart": "node scripts/merge-env.js && bun run clean:metro",
     "start": "ENVFILE=.env.merged react-native start --port 8084",
     "preandroid": "node scripts/merge-env.js && bun run clean:metro",
