@@ -1,16 +1,12 @@
 /**
  * Environment configuration
  *
- * Uses react-native-config which reads from .env files.
+ * Reads from process.env (injected by Metro / Expo at JS bundle time).
  */
-
-import Config from 'react-native-config';
 
 const envObj = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
 const getEnv = (key: string, defaultValue: string = ''): string => {
-  return (Config as Record<string, string | undefined>)?.[key] ??
-    envObj[key] ??
-    defaultValue;
+  return envObj[key] ?? defaultValue;
 };
 
 export const env = {

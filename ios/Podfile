@@ -37,6 +37,22 @@ target 'StarterApp' do
       :mac_catalyst_enabled => false,
     )
 
+    # Build speed optimizations for pods
+    ccache_path = `which ccache 2>/dev/null`.strip
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |bc|
+        if !ccache_path.empty?
+          bc.build_settings['CC']  = "#{ccache_path} clang"
+          bc.build_settings['CXX'] = "#{ccache_path} clang++"
+        end
+        bc.build_settings['COMPILER_INDEX_STORE_ENABLE'] = 'NO'
+        if bc.name == 'Debug'
+          bc.build_settings['ONLY_ACTIVE_ARCH'] = 'YES'
+          bc.build_settings['DEBUG_INFORMATION_FORMAT'] = 'dwarf'
+        end
+      end
+    end
+
     installer.target_installation_results.pod_target_installation_results
       .each do |pod_name, target_installation_result|
       target_installation_result.resource_bundle_targets.each do |resource_bundle_target|
