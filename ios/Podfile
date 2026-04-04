@@ -38,12 +38,15 @@ target 'StarterApp' do
     )
 
     # Build speed optimizations for pods
-    ccache_path = `which ccache 2>/dev/null`.strip
+    ccache_clang   = File.join(__dir__, 'scripts', 'ccache-clang')
+    ccache_clangpp = File.join(__dir__, 'scripts', 'ccache-clang++')
+    use_ccache = File.executable?(ccache_clang) && `which ccache 2>/dev/null`.strip.length > 0
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |bc|
-        if !ccache_path.empty?
-          bc.build_settings['CC']  = "#{ccache_path} clang"
-          bc.build_settings['CXX'] = "#{ccache_path} clang++"
+        # ccache: cache C/C++/ObjC compilation via wrapper scripts
+        if use_ccache
+          bc.build_settings['CC']  = ccache_clang
+          bc.build_settings['CXX'] = ccache_clangpp
         end
         bc.build_settings['COMPILER_INDEX_STORE_ENABLE'] = 'NO'
         if bc.name == 'Debug'
