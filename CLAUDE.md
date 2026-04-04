@@ -87,7 +87,7 @@ All `@sudobility/*` packages are installed from npmjs (not local/monorepo links)
 
 ## Environment Variables
 
-Via `react-native-config` (EXPO_PUBLIC_* prefix):
+Environment variables (EXPO_PUBLIC_* prefix):
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -130,4 +130,4 @@ Via `react-native-config` (EXPO_PUBLIC_* prefix):
 - Metro runs on port `8084` (not the default 8081) -- ensure no port conflicts
 - The `localStorage` polyfill must be imported before any Zustand persist store is created
 - Firebase Auth uses `AsyncStorage` for persistence -- different from the web app's approach
-- `react-native-config` uses `EXPO_PUBLIC_*` prefix for environment variables
+- Environment variables use `EXPO_PUBLIC_*` prefix

@@ -11,7 +11,7 @@ cp .env.example .env   # Configure environment variables
 
 ### Environment Variables
 
-Via `react-native-config` (`EXPO_PUBLIC_*` prefix):
+Environment variables (`EXPO_PUBLIC_*` prefix):
 
 | Variable | Description | Default |
 |----------|-------------|---------|

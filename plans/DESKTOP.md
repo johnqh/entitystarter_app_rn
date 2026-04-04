@@ -249,7 +249,6 @@ const isDesktop = Platform.OS === 'macos' || Platform.OS === 'windows';
 | Risk | Mitigation |
 |------|------------|
 | `react-native-screens` may not support macOS | Podfile nil-safe patch for RCTThirdPartyComponentsProvider; may need to use `@react-navigation/stack` (JS-based) on desktop |
-| `react-native-config` may not work on desktop | env.ts already has `process.env` fallback |
 | `Alert.alert()` behavior on desktop | Should work on macOS (NSAlert); verify on Windows |
 | Metro port not passed to macOS build | May need explicit `--port 8084` in macos script |
 | Windows autolinking for WebAuth | Embed module directly in app's vcxproj (same as svgr_app_rn pattern) |

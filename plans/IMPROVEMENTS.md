@@ -60,6 +60,5 @@
 
 ### 6. Hardcoded Google Sign-In Client IDs Should Be Environment Variables [DONE]
 - ~~`AuthContext.tsx` contains hardcoded Google Sign-In client IDs (`iosClientId` and `webClientId`) directly in the source code~~
-- ~~These should be moved to environment variables via `react-native-config` alongside the other Firebase configuration~~
 - ~~This prevents accidental exposure of client IDs in the source repository and allows different client IDs per environment (development vs. production)~~
 - Already resolved: `src/config/env.ts` exports `GOOGLE_OAUTH_CONFIG` reading `GOOGLE_OAUTH_CLIENT_ID`, `GOOGLE_OAUTH_IOS_CLIENT_ID`, and `GOOGLE_OAUTH_REVERSED_CLIENT_ID` from environment variables. `AuthContext.tsx` and `src/services/googleAuth.ts` use these env-backed values, not hardcoded strings.
