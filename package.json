@@ -1,6 +1,6 @@
 {
   "name": "entitystarter_app_rn",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "displayName": "Starter App",
   "private": true,
   "scripts": {
@@ -37,7 +37,7 @@
     "@sudobility/building_blocks_rn": "^0.0.20",
     "@sudobility/design": "^1.1.25",
     "@sudobility/di": "^1.5.52",
-    "@sudobility/di_rn": "^0.1.71",
+    "@sudobility/di_rn": "^0.1.72",
     "@sudobility/entitystarter_client": "^0.0.18",
     "@sudobility/entitystarter_lib": "^0.0.16",
     "@sudobility/entitystarter_types": "^0.0.17",
