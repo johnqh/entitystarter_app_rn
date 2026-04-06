@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - building-blocks-rn-macos (0.0.11):
+  - building-blocks-rn-macos (0.0.20):
     - React-Core
   - DoubleConversion (1.1.6)
   - fast_float (8.0.0)
@@ -1751,36 +1751,6 @@ PODS:
     - React-RCTFBReactNativeSpec
     - ReactCommon/turbomodule/core
     - SocketRocket
-  - react-native-config (1.6.1):
-    - react-native-config/App (= 1.6.1)
-  - react-native-config/App (1.6.1):
-    - boost
-    - DoubleConversion
-    - fast_float
-    - fmt
-    - glog
-    - hermes-engine
-    - RCT-Folly
-    - RCT-Folly/Fabric
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-jsi
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-renderercss
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - SocketRocket
-    - Yoga
   - react-native-safe-area-context (5.6.2):
     - boost
     - DoubleConversion
@@ -2560,7 +2530,6 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native-macos/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native-macos/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native-macos/ReactCommon/react/nativemodule/microtasks`)
-  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-NativeModulesApple (from `../node_modules/react-native-macos/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../node_modules/react-native-macos/ReactCommon/oscompat`)
@@ -2687,8 +2656,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-macos/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native-macos/ReactCommon/react/nativemodule/microtasks"
-  react-native-config:
-    :path: "../node_modules/react-native-config"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-NativeModulesApple:
@@ -2764,7 +2731,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: cea1d4f90a3a59537f3deb03ff5656489d7133dd
-  building-blocks-rn-macos: c30c3ba817a1a9037bd22b874c16845cedac8251
+  building-blocks-rn-macos: e2596a1820c8633f058bf92c7f2d42ace050ad8e
   DoubleConversion: d31b1eb37f6d6f456530c4fd9124b857d6889cab
   fast_float: 20817c22759af6ac8d4d67e6e059b8b499953656
   FBLazyVector: 0e3076dbb16169b0afc2d701a24a526423b5e76b
@@ -2804,7 +2771,6 @@ SPEC CHECKSUMS:
   React-logger: 86f7d7aba95df93aa8769f093e336625edb7d263
   React-Mapbuffer: 67b579421aed59754817bf86da7400161a9d5cb9
   React-microtasksnativemodule: bc94fd99e424f4cfc1e3e491f722a08833440754
-  react-native-config: 2249b7e68644c86ea68358f5a0d746d1c648f900
   react-native-safe-area-context: c00143b4823773bba23f2f19f85663ae89ceb460
   React-NativeModulesApple: 16f31e7cfbfc914b39a8b119b883f5f7a076d904
   React-oscompat: 575d3dbc887477c0f3d42ecf1b9a48863b50be87
@@ -2843,6 +2809,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 6048a55441c73f8e3916a8eac6b83886708c77f9
 
-PODFILE CHECKSUM: f4d188a8c8294e68c5093ba923624ad2f60fa57a
+PODFILE CHECKSUM: 219c4293b47c224d991a0cbe5eb2fc4b26b4c744
 
 COCOAPODS: 1.16.2

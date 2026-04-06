@@ -2,7 +2,13 @@ module.exports = {
   dependencies: {
     // Disable native Firebase packages on macOS — desktop uses Firebase JS SDK
     '@react-native-firebase/app': {
-      platforms: { macos: null },
+      platforms: {
+        macos: null,
+        android: {
+          packageImportPath:
+            'import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;',
+        },
+      },
     },
     '@react-native-firebase/auth': {
       platforms: { macos: null },

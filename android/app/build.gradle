@@ -5,13 +5,6 @@ apply plugin: "com.google.gms.google-services"
 apply plugin: "com.google.firebase.crashlytics"
 apply plugin: "com.google.firebase.firebase-perf"
 
-// Load .env variables via react-native-config
-project.ext.envConfigFiles = [
-    debug: ".env.merged",
-    release: ".env.merged",
-]
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-
 def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
 
 /**
