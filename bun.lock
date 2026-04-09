@@ -21,7 +21,7 @@
         "@sudobility/building_blocks_rn": "^0.0.22",
         "@sudobility/design": "^1.1.27",
         "@sudobility/di": "^1.5.52",
-        "@sudobility/di_rn": "^0.1.74",
+        "@sudobility/di_rn": "^0.1.75",
         "@sudobility/entitystarter_client": "^0.0.18",
         "@sudobility/entitystarter_lib": "^0.0.16",
         "@sudobility/entitystarter_types": "^0.0.17",
@@ -639,7 +639,7 @@
 
     "@sudobility/di": ["@sudobility/di@1.5.52", "", { "peerDependencies": { "@notifee/react-native": ">=7.0.0", "@react-native-async-storage/async-storage": ">=1.19.0", "@react-native-community/netinfo": ">=9.0.0", "@react-native-firebase/analytics": ">=18.0.0", "@react-native-firebase/app": ">=18.0.0", "@react-native-firebase/messaging": ">=18.0.0", "@react-native-firebase/remote-config": ">=18.0.0", "@sudobility/types": "^1.9.61", "firebase": ">=11.0.0", "react": ">=18.0.0", "react-native": ">=0.70.0" }, "optionalPeers": ["@notifee/react-native", "@react-native-async-storage/async-storage", "@react-native-community/netinfo", "@react-native-firebase/analytics", "@react-native-firebase/app", "@react-native-firebase/messaging", "@react-native-firebase/remote-config", "firebase", "react-native"] }, "sha512-ctRmuzXkZi0EenhVpxGCL97+hqG1Cvf82dLCWZUr+SwPJ7bTOSJzjRn6RdLyUNEvkxek6xNY4XGC3eZmAxCdKQ=="],
 
-    "@sudobility/di_rn": ["@sudobility/di_rn@0.1.74", "", { "peerDependencies": { "@sudobility/components-rn": "^1.0.43", "@sudobility/di": "^1.5.52", "@sudobility/types": "^1.9.61", "react": "^18.0.0 || ^19.0.0", "react-native": ">=0.72.0" } }, "sha512-FQWVSKO6/M0lsg235BCXQWAuGMjXWCqAR95po0Fwsn/QoDiQO/oaB37v8X2maBEI6MM8Pi9OGiuUAEOcUkBW1w=="],
+    "@sudobility/di_rn": ["@sudobility/di_rn@0.1.75", "", { "peerDependencies": { "@sudobility/components-rn": "^1.0.44", "@sudobility/di": "^1.5.52", "@sudobility/types": "^1.9.61", "react": "^18.0.0 || ^19.0.0", "react-native": ">=0.72.0" } }, "sha512-QD6i7CsIsfSJEjncWR0ZoAhkRhUYTz0B9T/CpDEqCuKGZOOKey/jrp9EMMVrpBKnkvLNbY/v84s+57M6trzVew=="],
 
     "@sudobility/entitystarter_client": ["@sudobility/entitystarter_client@0.0.18", "", { "peerDependencies": { "@sudobility/types": "^1.9.61", "@tanstack/react-query": ">=5.0.0", "react": ">=18.0.0" } }, "sha512-kLH6/HZDu6ViXuCJkbSksodzrHZtvvcBUp871/QuaPFa/FYGpCwavA9sBeq39BjG8YJyC7ZbQckD9f8+h7hDwA=="],
 
