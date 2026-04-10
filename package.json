@@ -1,6 +1,6 @@
 {
   "name": "entitystarter_app_rn",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "displayName": "Starter App",
   "private": true,
   "scripts": {
@@ -18,7 +18,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "jest --passWithNoTests",
-    "localize": "SCRIPT=$(mktemp) && curl -fsSL https://raw.githubusercontent.com/johnqh/workflows/main/scripts/localize_batch.cjs -o $SCRIPT && node $SCRIPT ./assets/locales https://api.whisperly.dev/api/v1/translate/jie9cytr/starter --batch-limit 15 && rm -f $SCRIPT && prettier . --write",
+    "localize": "SCRIPT=$(mktemp) && curl -fsSL https://raw.githubusercontent.com/johnqh/workflows/main/scripts/localize_batch.cjs -o $SCRIPT && node $SCRIPT ./assets/locales https://api.whisperly.dev/api/v1/translate/jie9cytr/starter --word-limit 40 && rm -f $SCRIPT && prettier . --write",
     "verify": "bun run typecheck && bun run lint && bun run test"
   },
   "dependencies": {
@@ -35,10 +35,10 @@
     "@react-navigation/native": "^7.1.28",
     "@react-navigation/native-stack": "^7.10.1",
     "@sudobility/auth_lib": "^0.0.68",
-    "@sudobility/building_blocks_rn": "^0.0.22",
-    "@sudobility/design": "^1.1.27",
+    "@sudobility/building_blocks_rn": "^0.0.23",
+    "@sudobility/design": "^1.1.28",
     "@sudobility/di": "^1.5.52",
-    "@sudobility/di_rn": "^0.1.75",
+    "@sudobility/di_rn": "^0.1.76",
     "@sudobility/entitystarter_client": "^0.0.18",
     "@sudobility/entitystarter_lib": "^0.0.16",
     "@sudobility/entitystarter_types": "^0.0.17",
