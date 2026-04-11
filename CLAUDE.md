@@ -68,12 +68,14 @@ bun run test           # Run Jest tests (colocated files; note: Jest, not Vitest
 ## Navigation Structure
 
 Bottom tabs:
+
 - **Histories** tab — HistoriesScreen -> HistoryDetailScreen (stack)
 - **Settings** tab — SettingsScreen
 
 ## Auth
 
 Uses a custom `AuthContext` (not @sudobility/auth-components) with:
+
 - Firebase Auth initialized with AsyncStorage persistence
 - Google Sign-In via `@react-native-google-signin/google-signin`
 
@@ -87,14 +89,14 @@ All `@sudobility/*` packages are installed from npmjs (not local/monorepo links)
 
 ## Environment Variables
 
-Environment variables (EXPO_PUBLIC_* prefix):
+Environment variables (EXPO*PUBLIC*\* prefix):
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `EXPO_PUBLIC_API_URL` | Backend API URL | `localhost:8022` |
-| `EXPO_PUBLIC_FIREBASE_API_KEY` | Firebase API key | required |
-| `EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN` | Firebase auth domain | required |
-| `EXPO_PUBLIC_FIREBASE_PROJECT_ID` | Firebase project ID | required |
+| Variable                           | Description          | Default          |
+| ---------------------------------- | -------------------- | ---------------- |
+| `EXPO_PUBLIC_API_URL`              | Backend API URL      | `localhost:8022` |
+| `EXPO_PUBLIC_FIREBASE_API_KEY`     | Firebase API key     | required         |
+| `EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN` | Firebase auth domain | required         |
+| `EXPO_PUBLIC_FIREBASE_PROJECT_ID`  | Firebase project ID  | required         |
 
 ## Path Alias
 

@@ -1,9 +1,6 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import {
-  ClockIcon,
-  Cog6ToothIcon,
-} from 'react-native-heroicons/outline';
+import { ClockIcon, Cog6ToothIcon } from 'react-native-heroicons/outline';
 import {
   ClockIcon as ClockIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
@@ -24,16 +21,28 @@ const tabs: { key: SidebarTab; label: string }[] = [
   { key: 'SettingsTab', label: 'Settings' },
 ];
 
-function TabIcon({ tab, focused, color }: { tab: SidebarTab; focused: boolean; color: string }) {
+function TabIcon({
+  tab,
+  focused,
+  color,
+}: {
+  tab: SidebarTab;
+  focused: boolean;
+  color: string;
+}) {
   switch (tab) {
     case 'HistoriesTab':
-      return focused
-        ? <ClockIconSolid color={color} size={ICON_SIZE} />
-        : <ClockIcon color={color} size={ICON_SIZE} />;
+      return focused ? (
+        <ClockIconSolid color={color} size={ICON_SIZE} />
+      ) : (
+        <ClockIcon color={color} size={ICON_SIZE} />
+      );
     case 'SettingsTab':
-      return focused
-        ? <Cog6ToothIconSolid color={color} size={ICON_SIZE} />
-        : <Cog6ToothIcon color={color} size={ICON_SIZE} />;
+      return focused ? (
+        <Cog6ToothIconSolid color={color} size={ICON_SIZE} />
+      ) : (
+        <Cog6ToothIcon color={color} size={ICON_SIZE} />
+      );
   }
 }
 
@@ -41,7 +50,12 @@ export function DesktopSidebar({ activeTab, onTabPress }: DesktopSidebarProps) {
   const appColors = useAppColors();
 
   return (
-    <View style={[styles.sidebar, { backgroundColor: appColors.card, borderRightColor: appColors.border }]}>
+    <View
+      style={[
+        styles.sidebar,
+        { backgroundColor: appColors.card, borderRightColor: appColors.border },
+      ]}
+    >
       <View style={styles.logo}>
         <Text style={[styles.logoText, { color: appColors.primary }]}>S</Text>
       </View>
@@ -51,7 +65,10 @@ export function DesktopSidebar({ activeTab, onTabPress }: DesktopSidebarProps) {
         return (
           <Pressable
             key={key}
-            style={[styles.tabItem, focused && { backgroundColor: appColors.background }]}
+            style={[
+              styles.tabItem,
+              focused && { backgroundColor: appColors.background },
+            ]}
             onPress={() => onTabPress(key)}
           >
             <TabIcon tab={key} focused={focused} color={color} />

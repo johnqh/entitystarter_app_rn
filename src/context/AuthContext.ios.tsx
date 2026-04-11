@@ -18,11 +18,15 @@ import auth, { type FirebaseAuthTypes } from '@react-native-firebase/auth';
 // Lazy-load Google Sign-In to avoid crash when native module isn't linked yet
 let googleSignInConfigured = false;
 async function getGoogleSignin() {
-  const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
+  const { GoogleSignin } = await import(
+    '@react-native-google-signin/google-signin'
+  );
   if (!googleSignInConfigured) {
     GoogleSignin.configure({
-      iosClientId: '1008456982478-34s3dd4ndeveq56rt1n774q85pda5v3f.apps.googleusercontent.com',
-      webClientId: '1008456982478-l6ai87gui758k3e0op384pfnp0ia6gi3.apps.googleusercontent.com',
+      iosClientId:
+        '1008456982478-34s3dd4ndeveq56rt1n774q85pda5v3f.apps.googleusercontent.com',
+      webClientId:
+        '1008456982478-l6ai87gui758k3e0op384pfnp0ia6gi3.apps.googleusercontent.com',
     });
     googleSignInConfigured = true;
   }
@@ -52,7 +56,9 @@ export interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-function toAuthUser(firebaseUser: FirebaseAuthTypes.User | null): AuthUser | null {
+function toAuthUser(
+  firebaseUser: FirebaseAuthTypes.User | null
+): AuthUser | null {
   if (!firebaseUser) return null;
   return {
     uid: firebaseUser.uid,
@@ -71,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Listen to auth state changes
   useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged(async (firebaseUser) => {
+    const unsubscribe = auth().onAuthStateChanged(async firebaseUser => {
       setUser(toAuthUser(firebaseUser));
 
       if (firebaseUser) {
@@ -127,23 +133,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const signInWithEmail = useCallback(async (email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      await auth().signInWithEmailAndPassword(email, password);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const signInWithEmail = useCallback(
+    async (email: string, password: string) => {
+      setIsLoading(true);
+      try {
+        await auth().signInWithEmailAndPassword(email, password);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
-  const signUpWithEmail = useCallback(async (email: string, password: string) => {
-    setIsLoading(true);
-    try {
-      await auth().createUserWithEmailAndPassword(email, password);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const signUpWithEmail = useCallback(
+    async (email: string, password: string) => {
+      setIsLoading(true);
+      try {
+        await auth().createUserWithEmailAndPassword(email, password);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   const signOut = useCallback(async () => {
     setIsLoading(true);
@@ -172,35 +184,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const value = useMemo<AuthContextValue>(() => ({
-    user,
-    isLoading,
-    isReady,
-    token,
-    signInWithGoogle,
-    signInWithEmail,
-    signUpWithEmail,
-    signOut,
-    sendPasswordResetEmail,
-    refreshToken,
-  }), [
-    user,
-    isLoading,
-    isReady,
-    token,
-    signInWithGoogle,
-    signInWithEmail,
-    signUpWithEmail,
-    signOut,
-    sendPasswordResetEmail,
-    refreshToken,
-  ]);
-
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo<AuthContextValue>(
+    () => ({
+      user,
+      isLoading,
+      isReady,
+      token,
+      signInWithGoogle,
+      signInWithEmail,
+      signUpWithEmail,
+      signOut,
+      sendPasswordResetEmail,
+      refreshToken,
+    }),
+    [
+      user,
+      isLoading,
+      isReady,
+      token,
+      signInWithGoogle,
+      signInWithEmail,
+      signUpWithEmail,
+      signOut,
+      sendPasswordResetEmail,
+      refreshToken,
+    ]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth(): AuthContextValue {

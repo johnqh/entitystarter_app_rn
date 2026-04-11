@@ -13,7 +13,7 @@ export function SettingsStack() {
       }}
     >
       <Stack.Screen
-        name="Settings"
+        name='Settings'
         component={SettingsScreen}
         options={{ title: 'Settings' }}
       />

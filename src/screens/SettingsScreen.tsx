@@ -69,62 +69,62 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
   const handleThemeChange = useCallback(() => {
     const currentIndex = themes.findIndex(th => th.value === theme);
 
-    Alert.alert(
-      t('settings.selectTheme'),
-      undefined,
-      [
-        ...themes.map((th, index) => ({
-          text: `${t(`settings.theme.${th.value}`, th.label)}${index === currentIndex ? ' \u2713' : ''}`,
-          onPress: () => setTheme(th.value),
-        })),
-        { text: t('common.cancel'), style: 'cancel' as const },
-      ]
-    );
+    Alert.alert(t('settings.selectTheme'), undefined, [
+      ...themes.map((th, index) => ({
+        text: `${t(`settings.theme.${th.value}`, th.label)}${
+          index === currentIndex ? ' \u2713' : ''
+        }`,
+        onPress: () => setTheme(th.value),
+      })),
+      { text: t('common.cancel'), style: 'cancel' as const },
+    ]);
   }, [theme, setTheme, t]);
 
   /** Show an alert to pick a language. */
   const handleLanguageChange = useCallback(() => {
     const activeLang = i18n.language;
-    Alert.alert(
-      t('settings.language'),
-      undefined,
-      [
-        ...SUPPORTED_LANGUAGES.map((lang) => ({
-          text: `${LANGUAGE_LABELS[lang] ?? lang}${lang === activeLang ? ' \u2713' : ''}`,
-          onPress: () => changeLanguage(lang),
-        })),
-        { text: t('common.cancel'), style: 'cancel' as const },
-      ]
-    );
+    Alert.alert(t('settings.language'), undefined, [
+      ...SUPPORTED_LANGUAGES.map(lang => ({
+        text: `${LANGUAGE_LABELS[lang] ?? lang}${
+          lang === activeLang ? ' \u2713' : ''
+        }`,
+        onPress: () => changeLanguage(lang),
+      })),
+      { text: t('common.cancel'), style: 'cancel' as const },
+    ]);
   }, [t]);
 
   /** Confirm and execute sign-out. */
   const handleSignOut = useCallback(async () => {
-    Alert.alert(
-      t('auth.signOut'),
-      t('auth.signOutConfirm'),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('auth.signOut'),
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await signOut();
-            } catch (error) {
-              console.error('Sign out error:', error);
-            }
-          },
+    Alert.alert(t('auth.signOut'), t('auth.signOutConfirm'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('auth.signOut'),
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await signOut();
+          } catch (error) {
+            console.error('Sign out error:', error);
+          }
         },
-      ]
-    );
+      },
+    ]);
   }, [signOut, t]);
 
   const currentTheme = themes.find(th => th.value === theme)?.label ?? 'System';
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: appColors.background }]} edges={['left', 'right']}>
-      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: tabBarHeight + 16 }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: appColors.background }]}
+      edges={['left', 'right']}
+    >
+      <ScrollView
+        contentContainerStyle={[
+          styles.content,
+          { paddingBottom: tabBarHeight + 16 },
+        ]}
+      >
         {/* Appearance Section */}
         <View style={styles.section}>
           <Text style={[styles.sectionTitle, { color: appColors.textMuted }]}>
@@ -134,37 +134,58 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
             <Pressable
               style={styles.settingRow}
               onPress={handleThemeChange}
-              accessibilityRole="button"
-              accessibilityLabel={`${t('settings.theme.label')}: ${t(`settings.theme.${theme}`, currentTheme)}`}
+              accessibilityRole='button'
+              accessibilityLabel={`${t('settings.theme.label')}: ${t(
+                `settings.theme.${theme}`,
+                currentTheme
+              )}`}
             >
               <View style={styles.settingContent}>
                 <Text style={[styles.settingLabel, { color: appColors.text }]}>
                   {t('settings.theme.label')}
                 </Text>
-                <Text style={[styles.settingDescription, { color: appColors.textMuted }]}>
+                <Text
+                  style={[
+                    styles.settingDescription,
+                    { color: appColors.textMuted },
+                  ]}
+                >
                   {t('settings.themeDescription')}
                 </Text>
               </View>
-              <Text style={[styles.settingValue, { color: appColors.textMuted }]}>
+              <Text
+                style={[styles.settingValue, { color: appColors.textMuted }]}
+              >
                 {t(`settings.theme.${theme}`, currentTheme)}
               </Text>
             </Pressable>
-            <View style={[styles.separator, { backgroundColor: appColors.border }]} />
+            <View
+              style={[styles.separator, { backgroundColor: appColors.border }]}
+            />
             <Pressable
               style={styles.settingRow}
               onPress={handleLanguageChange}
-              accessibilityRole="button"
-              accessibilityLabel={`${t('settings.language')}: ${LANGUAGE_LABELS[i18n.language] ?? i18n.language}`}
+              accessibilityRole='button'
+              accessibilityLabel={`${t('settings.language')}: ${
+                LANGUAGE_LABELS[i18n.language] ?? i18n.language
+              }`}
             >
               <View style={styles.settingContent}>
                 <Text style={[styles.settingLabel, { color: appColors.text }]}>
                   {t('settings.language')}
                 </Text>
-                <Text style={[styles.settingDescription, { color: appColors.textMuted }]}>
+                <Text
+                  style={[
+                    styles.settingDescription,
+                    { color: appColors.textMuted },
+                  ]}
+                >
                   {t('settings.languageDescription')}
                 </Text>
               </View>
-              <Text style={[styles.settingValue, { color: appColors.textMuted }]}>
+              <Text
+                style={[styles.settingValue, { color: appColors.textMuted }]}
+              >
                 {LANGUAGE_LABELS[i18n.language] ?? i18n.language}
               </Text>
             </Pressable>
@@ -179,20 +200,33 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
           <View style={[styles.group, { backgroundColor: appColors.card }]}>
             {authLoading ? (
               <View style={styles.settingRow}>
-                <ActivityIndicator size="small" color={appColors.primary} />
+                <ActivityIndicator size='small' color={appColors.primary} />
               </View>
             ) : user ? (
               <View style={styles.settingRow}>
                 <View style={styles.settingContent}>
-                  <Text style={[styles.settingLabel, { color: appColors.text }]}>
+                  <Text
+                    style={[styles.settingLabel, { color: appColors.text }]}
+                  >
                     {user.email || t('auth.signedIn')}
                   </Text>
-                  <Text style={[styles.settingDescription, { color: appColors.textMuted }]}>
+                  <Text
+                    style={[
+                      styles.settingDescription,
+                      { color: appColors.textMuted },
+                    ]}
+                  >
                     {user.displayName || user.uid.substring(0, 8)}
                   </Text>
                 </View>
-                <Pressable onPress={handleSignOut} accessibilityRole="button" accessibilityLabel={t('auth.signOut')}>
-                  <Text style={[styles.signOutText, { color: appColors.primary }]}>
+                <Pressable
+                  onPress={handleSignOut}
+                  accessibilityRole='button'
+                  accessibilityLabel={t('auth.signOut')}
+                >
+                  <Text
+                    style={[styles.signOutText, { color: appColors.primary }]}
+                  >
                     {t('auth.signOut')}
                   </Text>
                 </Pressable>
@@ -203,18 +237,27 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
                 onPress={() => {
                   setShowAuthModal(true);
                 }}
-                accessibilityRole="button"
+                accessibilityRole='button'
                 accessibilityLabel={t('auth.signIn')}
               >
                 <View style={styles.settingContent}>
-                  <Text style={[styles.settingLabel, { color: appColors.text }]}>
+                  <Text
+                    style={[styles.settingLabel, { color: appColors.text }]}
+                  >
                     {t('auth.signIn')}
                   </Text>
-                  <Text style={[styles.settingDescription, { color: appColors.textMuted }]}>
+                  <Text
+                    style={[
+                      styles.settingDescription,
+                      { color: appColors.textMuted },
+                    ]}
+                  >
                     {t('settings.signInDescription')}
                   </Text>
                 </View>
-                <Text style={[styles.arrow, { color: appColors.textMuted }]}>{'\u203A'}</Text>
+                <Text style={[styles.arrow, { color: appColors.textMuted }]}>
+                  {'\u203A'}
+                </Text>
               </Pressable>
             )}
           </View>
@@ -237,7 +280,7 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
       <AuthModal
         visible={showAuthModal}
         onDismiss={() => setShowAuthModal(false)}
-        initialMode="signin"
+        initialMode='signin'
       />
     </SafeAreaView>
   );

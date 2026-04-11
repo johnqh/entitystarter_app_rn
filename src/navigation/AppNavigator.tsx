@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Platform, useColorScheme } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-  ClockIcon,
-  Cog6ToothIcon,
-} from 'react-native-heroicons/outline';
+import { ClockIcon, Cog6ToothIcon } from 'react-native-heroicons/outline';
 import {
   ClockIcon as ClockIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
@@ -24,7 +21,15 @@ const isDesktop = Platform.OS === 'macos' || Platform.OS === 'windows';
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
 // Tab icon render functions defined outside component to avoid unstable references
-function renderHistoriesIcon({ focused, color, size }: { focused: boolean; color: string; size: number }) {
+function renderHistoriesIcon({
+  focused,
+  color,
+  size,
+}: {
+  focused: boolean;
+  color: string;
+  size: number;
+}) {
   return focused ? (
     <ClockIconSolid color={color} size={size} />
   ) : (
@@ -32,7 +37,15 @@ function renderHistoriesIcon({ focused, color, size }: { focused: boolean; color
   );
 }
 
-function renderSettingsIcon({ focused, color, size }: { focused: boolean; color: string; size: number }) {
+function renderSettingsIcon({
+  focused,
+  color,
+  size,
+}: {
+  focused: boolean;
+  color: string;
+  size: number;
+}) {
   return focused ? (
     <Cog6ToothIconSolid color={color} size={size} />
   ) : (
@@ -76,7 +89,7 @@ function MobileNavigator({ theme }: { theme: typeof lightTheme }) {
         }}
       >
         <Tab.Screen
-          name="HistoriesTab"
+          name='HistoriesTab'
           component={HistoriesStack}
           options={{
             tabBarLabel: 'Histories',
@@ -84,7 +97,7 @@ function MobileNavigator({ theme }: { theme: typeof lightTheme }) {
           }}
         />
         <Tab.Screen
-          name="SettingsTab"
+          name='SettingsTab'
           component={SettingsStack}
           options={{
             tabBarLabel: 'Settings',
@@ -99,9 +112,10 @@ function MobileNavigator({ theme }: { theme: typeof lightTheme }) {
 export function AppNavigator() {
   const systemColorScheme = useColorScheme();
   const { theme: userTheme } = useSettingsStore();
-  const isDark = userTheme === 'system'
-    ? systemColorScheme === 'dark'
-    : userTheme === 'dark';
+  const isDark =
+    userTheme === 'system'
+      ? systemColorScheme === 'dark'
+      : userTheme === 'dark';
   const theme = isDark ? darkTheme : lightTheme;
 
   if (isDesktop) {

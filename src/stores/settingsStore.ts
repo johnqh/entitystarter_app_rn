@@ -43,9 +43,9 @@ const initialState = {
  */
 export const useSettingsStore = create<SettingsState>()(
   persist(
-    (set) => ({
+    set => ({
       ...initialState,
-      setTheme: (theme) => set({ theme }),
+      setTheme: theme => set({ theme }),
       reset: () => set(initialState),
     }),
     {

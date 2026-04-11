@@ -63,7 +63,9 @@ console.log(`  Loaded ${Object.keys(envBase).length} variables from .env`);
 
 const envLocal = parseEnvFile(envLocalPath);
 if (Object.keys(envLocal).length > 0) {
-  console.log(`  Loaded ${Object.keys(envLocal).length} variables from .env.local`);
+  console.log(
+    `  Loaded ${Object.keys(envLocal).length} variables from .env.local`
+  );
 }
 
 const merged = { ...envBase, ...envLocal };

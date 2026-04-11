@@ -42,7 +42,7 @@ function AppContent() {
   return (
     <>
       <AppNavigator />
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
     </>
   );
 }
@@ -53,7 +53,7 @@ export default function App() {
   useEffect(() => {
     initializeAllServices()
       .then(() => setServicesReady(true))
-      .catch((error) => {
+      .catch(error => {
         console.error('[App] Failed to initialize services:', error);
         // Still allow app to render even if some services fail
         setServicesReady(true);

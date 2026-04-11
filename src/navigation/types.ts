@@ -22,13 +22,28 @@ export type RootTabParamList = {
 };
 
 // Screen props types
-export type HistoriesListScreenProps = NativeStackScreenProps<HistoriesStackParamList, 'HistoriesList'>;
-export type HistoryDetailScreenProps = NativeStackScreenProps<HistoriesStackParamList, 'HistoryDetail'>;
-export type SettingsScreenProps = NativeStackScreenProps<SettingsStackParamList, 'Settings'>;
+export type HistoriesListScreenProps = NativeStackScreenProps<
+  HistoriesStackParamList,
+  'HistoriesList'
+>;
+export type HistoryDetailScreenProps = NativeStackScreenProps<
+  HistoriesStackParamList,
+  'HistoryDetail'
+>;
+export type SettingsScreenProps = NativeStackScreenProps<
+  SettingsStackParamList,
+  'Settings'
+>;
 
 // Tab screen props
-export type HistoriesTabProps = BottomTabScreenProps<RootTabParamList, 'HistoriesTab'>;
-export type SettingsTabProps = BottomTabScreenProps<RootTabParamList, 'SettingsTab'>;
+export type HistoriesTabProps = BottomTabScreenProps<
+  RootTabParamList,
+  'HistoriesTab'
+>;
+export type SettingsTabProps = BottomTabScreenProps<
+  RootTabParamList,
+  'SettingsTab'
+>;
 
 // Utility type for navigation prop
 declare global {

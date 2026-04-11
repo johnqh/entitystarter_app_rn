@@ -10,7 +10,12 @@
  */
 
 import React, { createContext, useContext, useMemo, useRef } from 'react';
-import type { NetworkClient, NetworkResponse, NetworkRequestOptions, Optional } from '@sudobility/types';
+import type {
+  NetworkClient,
+  NetworkResponse,
+  NetworkRequestOptions,
+  Optional,
+} from '@sudobility/types';
 import { env } from '@/config/env';
 import { useAuth } from './AuthContext';
 
@@ -156,31 +161,58 @@ const createNetworkClient = (
   request: <T,>(
     url: string,
     options?: Optional<NetworkRequestOptions>
-  ): Promise<NetworkResponse<T>> => makeRequestWithRetry(url, options, refreshTokenRef.current),
+  ): Promise<NetworkResponse<T>> =>
+    makeRequestWithRetry(url, options, refreshTokenRef.current),
 
   get: <T,>(
     url: string,
     options?: Optional<Omit<NetworkRequestOptions, 'method' | 'body'>>
-  ): Promise<NetworkResponse<T>> => makeRequestWithRetry(url, { ...options, method: 'GET' }, refreshTokenRef.current),
+  ): Promise<NetworkResponse<T>> =>
+    makeRequestWithRetry(
+      url,
+      { ...options, method: 'GET' },
+      refreshTokenRef.current
+    ),
 
   post: <T,>(
     url: string,
     body?: Optional<unknown>,
     options?: Optional<Omit<NetworkRequestOptions, 'method'>>
   ): Promise<NetworkResponse<T>> =>
-    makeRequestWithRetry(url, { ...options, method: 'POST', body: body ? JSON.stringify(body) : undefined }, refreshTokenRef.current),
+    makeRequestWithRetry(
+      url,
+      {
+        ...options,
+        method: 'POST',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      refreshTokenRef.current
+    ),
 
   put: <T,>(
     url: string,
     body?: Optional<unknown>,
     options?: Optional<Omit<NetworkRequestOptions, 'method'>>
   ): Promise<NetworkResponse<T>> =>
-    makeRequestWithRetry(url, { ...options, method: 'PUT', body: body ? JSON.stringify(body) : undefined }, refreshTokenRef.current),
+    makeRequestWithRetry(
+      url,
+      {
+        ...options,
+        method: 'PUT',
+        body: body ? JSON.stringify(body) : undefined,
+      },
+      refreshTokenRef.current
+    ),
 
   delete: <T,>(
     url: string,
     options?: Optional<Omit<NetworkRequestOptions, 'method' | 'body'>>
-  ): Promise<NetworkResponse<T>> => makeRequestWithRetry(url, { ...options, method: 'DELETE' }, refreshTokenRef.current),
+  ): Promise<NetworkResponse<T>> =>
+    makeRequestWithRetry(
+      url,
+      { ...options, method: 'DELETE' },
+      refreshTokenRef.current
+    ),
 });
 
 const ApiContext = createContext<ApiContextValue | null>(null);
@@ -197,20 +229,19 @@ export function ApiProvider({ children }: { children: React.ReactNode }) {
   refreshTokenRef.current = refreshToken;
   const networkClient = useMemo(() => createNetworkClient(refreshTokenRef), []);
 
-  const value = useMemo<ApiContextValue>(() => ({
-    networkClient,
-    baseUrl: env.API_URL,
-    token,
-    userId: user?.uid ?? null,
-    isReady,
-    isLoading,
-  }), [networkClient, token, user?.uid, isReady, isLoading]);
-
-  return (
-    <ApiContext.Provider value={value}>
-      {children}
-    </ApiContext.Provider>
+  const value = useMemo<ApiContextValue>(
+    () => ({
+      networkClient,
+      baseUrl: env.API_URL,
+      token,
+      userId: user?.uid ?? null,
+      isReady,
+      isLoading,
+    }),
+    [networkClient, token, user?.uid, isReady, isLoading]
   );
+
+  return <ApiContext.Provider value={value}>{children}</ApiContext.Provider>;
 }
 
 /**

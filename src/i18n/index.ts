@@ -11,7 +11,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { resources } from '@/assets/locales';
 
 const SUPPORTED_LANGUAGES = [
-  'en', 'ar', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pt', 'ru', 'sv', 'th', 'uk', 'vi', 'zh', 'zh-Hant',
+  'en',
+  'ar',
+  'de',
+  'es',
+  'fr',
+  'it',
+  'ja',
+  'ko',
+  'pt',
+  'ru',
+  'sv',
+  'th',
+  'uk',
+  'vi',
+  'zh',
+  'zh-Hant',
 ] as const;
 
 const LANGUAGE_STORAGE_KEY = '@starter/language';
@@ -32,16 +47,14 @@ function getInitialLanguage(): string {
   return 'en';
 }
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: getInitialLanguage(),
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
-    },
-  });
+i18n.use(initReactI18next).init({
+  resources,
+  lng: getInitialLanguage(),
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+});
 
 /**
  * Load stored language preference from AsyncStorage and apply it.

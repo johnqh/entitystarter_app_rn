@@ -8,9 +8,7 @@ import {
 
 // --- URL Parameter Parsing ---
 
-function parseCallbackParams(
-  callbackUrl: string,
-): Record<string, string> {
+function parseCallbackParams(callbackUrl: string): Record<string, string> {
   const params: Record<string, string> = {};
   const qIndex = callbackUrl.indexOf('?');
   if (qIndex < 0) return params;
@@ -43,7 +41,7 @@ function buildFormBody(params: Record<string, string>): string {
 async function exchangeCodeForTokens(
   code: string,
   codeVerifier: string,
-  redirectUri: string,
+  redirectUri: string
 ): Promise<GoogleTokenResponse> {
   const response = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
@@ -59,9 +57,7 @@ async function exchangeCodeForTokens(
 
   if (!response.ok) {
     const errorBody = await response.text();
-    throw new Error(
-      `Token exchange failed (${response.status}): ${errorBody}`,
-    );
+    throw new Error(`Token exchange failed (${response.status}): ${errorBody}`);
   }
 
   return response.json();
@@ -99,7 +95,7 @@ export async function signInWithGoogleOAuth(): Promise<OAuthCredential | null> {
   const params = parseCallbackParams(callbackUrl);
   if (params.error) {
     throw new Error(
-      `Google OAuth error: ${params.error} - ${params.error_description || ''}`,
+      `Google OAuth error: ${params.error} - ${params.error_description || ''}`
     );
   }
   const code = params.code;

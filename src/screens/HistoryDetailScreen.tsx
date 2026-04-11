@@ -21,17 +21,16 @@ import { useHistoriesManager } from '@sudobility/entitystarter_lib';
 import { useAppColors } from '@/hooks/useAppColors';
 import type { HistoryDetailScreenProps } from '@/navigation/types';
 
-export default function HistoryDetailScreen({ route, navigation }: HistoryDetailScreenProps) {
+export default function HistoryDetailScreen({
+  route,
+  navigation,
+}: HistoryDetailScreenProps) {
   const { historyId } = route.params;
   const { t } = useTranslation();
   const appColors = useAppColors();
   const { networkClient, baseUrl, token, userId } = useApi();
 
-  const {
-    histories,
-    isLoading,
-    deleteHistory,
-  } = useHistoriesManager({
+  const { histories, isLoading, deleteHistory } = useHistoriesManager({
     baseUrl,
     networkClient,
     entitySlug: userId,
@@ -42,33 +41,35 @@ export default function HistoryDetailScreen({ route, navigation }: HistoryDetail
 
   /** Confirm and execute deletion of the current history entry. */
   const handleDelete = useCallback(() => {
-    Alert.alert(
-      t('common.delete'),
-      t('histories.deleteConfirm'),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('common.delete'),
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteHistory(historyId);
-              navigation.goBack();
-            } catch (error: unknown) {
-              const message = error instanceof Error ? error.message : 'Failed to delete history.';
-              Alert.alert('Error', message);
-            }
-          },
+    Alert.alert(t('common.delete'), t('histories.deleteConfirm'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('common.delete'),
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await deleteHistory(historyId);
+            navigation.goBack();
+          } catch (error: unknown) {
+            const message =
+              error instanceof Error
+                ? error.message
+                : 'Failed to delete history.';
+            Alert.alert('Error', message);
+          }
         },
-      ]
-    );
+      },
+    ]);
   }, [historyId, deleteHistory, navigation, t]);
 
   if (isLoading) {
     return (
-      <SafeAreaView style={[styles.container, { backgroundColor: appColors.background }]} edges={['left', 'right']}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: appColors.background }]}
+        edges={['left', 'right']}
+      >
         <View style={styles.centered}>
-          <ActivityIndicator size="large" color={appColors.primary} />
+          <ActivityIndicator size='large' color={appColors.primary} />
         </View>
       </SafeAreaView>
     );
@@ -76,7 +77,10 @@ export default function HistoryDetailScreen({ route, navigation }: HistoryDetail
 
   if (!history) {
     return (
-      <SafeAreaView style={[styles.container, { backgroundColor: appColors.background }]} edges={['left', 'right']}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: appColors.background }]}
+        edges={['left', 'right']}
+      >
         <View style={styles.centered}>
           <Text style={[styles.notFoundText, { color: appColors.textMuted }]}>
             {t('histories.notFound')}
@@ -87,10 +91,16 @@ export default function HistoryDetailScreen({ route, navigation }: HistoryDetail
   }
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: appColors.background }]} edges={['left', 'right']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: appColors.background }]}
+      edges={['left', 'right']}
+    >
       <View style={styles.content}>
         {/* Detail Card */}
-        <View style={[styles.card, { backgroundColor: appColors.card }]} accessibilityRole="summary">
+        <View
+          style={[styles.card, { backgroundColor: appColors.card }]}
+          accessibilityRole='summary'
+        >
           <View style={styles.fieldRow}>
             <Text style={[styles.fieldLabel, { color: appColors.textMuted }]}>
               {t('histories.datetime')}
@@ -100,22 +110,33 @@ export default function HistoryDetailScreen({ route, navigation }: HistoryDetail
             </Text>
           </View>
 
-          <View style={[styles.separator, { backgroundColor: appColors.border }]} />
+          <View
+            style={[styles.separator, { backgroundColor: appColors.border }]}
+          />
 
           <View style={styles.fieldRow}>
             <Text style={[styles.fieldLabel, { color: appColors.textMuted }]}>
               {t('histories.value')}
             </Text>
-            <Text style={[styles.fieldValueLarge, { color: appColors.primary }]}>
+            <Text
+              style={[styles.fieldValueLarge, { color: appColors.primary }]}
+            >
               {history.value}
             </Text>
           </View>
 
           {history.created_at && (
             <>
-              <View style={[styles.separator, { backgroundColor: appColors.border }]} />
+              <View
+                style={[
+                  styles.separator,
+                  { backgroundColor: appColors.border },
+                ]}
+              />
               <View style={styles.fieldRow}>
-                <Text style={[styles.fieldLabel, { color: appColors.textMuted }]}>
+                <Text
+                  style={[styles.fieldLabel, { color: appColors.textMuted }]}
+                >
                   {t('histories.createdAt')}
                 </Text>
                 <Text style={[styles.fieldValue, { color: appColors.text }]}>
@@ -130,7 +151,7 @@ export default function HistoryDetailScreen({ route, navigation }: HistoryDetail
         <Pressable
           style={[styles.deleteButton, { backgroundColor: appColors.error }]}
           onPress={handleDelete}
-          accessibilityRole="button"
+          accessibilityRole='button'
           accessibilityLabel={t('common.delete')}
         >
           <Text style={styles.deleteButtonText}>{t('common.delete')}</Text>

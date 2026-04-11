@@ -8,7 +8,7 @@ const defaultConfig = getDefaultConfig(__dirname);
 let rnwPath;
 try {
   rnwPath = fs.realpathSync(
-    path.resolve(require.resolve('react-native-windows/package.json'), '..'),
+    path.resolve(require.resolve('react-native-windows/package.json'), '..')
   );
 } catch {
   rnwPath = null;
@@ -16,9 +16,7 @@ try {
 
 const blockList = [
   // Prevent Windows build artifacts from crashing Metro
-  new RegExp(
-    `${path.resolve(__dirname, 'windows').replace(/[/\\]/g, '/')}.*`,
-  ),
+  new RegExp(`${path.resolve(__dirname, 'windows').replace(/[/\\]/g, '/')}.*`),
   /.*\.ProjectImports\.zip/,
 ];
 if (rnwPath) {

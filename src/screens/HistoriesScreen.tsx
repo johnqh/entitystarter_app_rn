@@ -29,26 +29,22 @@ import AuthModal from '@/components/AuthModal';
 import type { HistoriesListScreenProps } from '@/navigation/types';
 import type { History } from '@sudobility/entitystarter_types';
 
-export default function HistoriesScreen({ navigation }: HistoriesListScreenProps) {
+export default function HistoriesScreen({
+  navigation,
+}: HistoriesListScreenProps) {
   const { t } = useTranslation();
   const appColors = useAppColors();
   const { user } = useAuth();
   const { networkClient, baseUrl, token, userId } = useApi();
   const tabBarHeight = useTabBarHeight();
 
-  const {
-    histories,
-    total,
-    percentage,
-    isLoading,
-    createHistory,
-    refresh,
-  } = useHistoriesManager({
-    baseUrl,
-    networkClient,
-    entitySlug: userId,
-    token,
-  });
+  const { histories, total, percentage, isLoading, createHistory, refresh } =
+    useHistoriesManager({
+      baseUrl,
+      networkClient,
+      entitySlug: userId,
+      token,
+    });
 
   // Add history modal state
   const [showAddModal, setShowAddModal] = useState(false);
@@ -88,7 +84,8 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
       setNewValue('');
       setShowAddModal(false);
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Failed to create history.';
+      const message =
+        error instanceof Error ? error.message : 'Failed to create history.';
       Alert.alert('Error', message);
     } finally {
       setIsSubmitting(false);
@@ -97,39 +94,54 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
 
   const userTotal = histories.reduce((sum, h) => sum + h.value, 0);
 
-  const renderHistoryItem = useCallback(({ item }: { item: History }) => (
-    <Pressable
-      style={[styles.historyItem, { backgroundColor: appColors.card }]}
-      onPress={() => navigation.navigate('HistoryDetail', { historyId: item.id })}
-      accessibilityRole="button"
-      accessibilityLabel={`${t('histories.value')}: ${item.value}, ${new Date(item.datetime).toLocaleDateString()}`}
-    >
-      <View style={styles.historyContent}>
-        <Text style={[styles.historyDate, { color: appColors.text }]}>
-          {new Date(item.datetime).toLocaleDateString()}
+  const renderHistoryItem = useCallback(
+    ({ item }: { item: History }) => (
+      <Pressable
+        style={[styles.historyItem, { backgroundColor: appColors.card }]}
+        onPress={() =>
+          navigation.navigate('HistoryDetail', { historyId: item.id })
+        }
+        accessibilityRole='button'
+        accessibilityLabel={`${t('histories.value')}: ${item.value}, ${new Date(
+          item.datetime
+        ).toLocaleDateString()}`}
+      >
+        <View style={styles.historyContent}>
+          <Text style={[styles.historyDate, { color: appColors.text }]}>
+            {new Date(item.datetime).toLocaleDateString()}
+          </Text>
+          <Text style={[styles.historyTime, { color: appColors.textMuted }]}>
+            {new Date(item.datetime).toLocaleTimeString()}
+          </Text>
+        </View>
+        <Text style={[styles.historyValue, { color: appColors.primary }]}>
+          {item.value}
         </Text>
-        <Text style={[styles.historyTime, { color: appColors.textMuted }]}>
-          {new Date(item.datetime).toLocaleTimeString()}
-        </Text>
-      </View>
-      <Text style={[styles.historyValue, { color: appColors.primary }]}>
-        {item.value}
-      </Text>
-    </Pressable>
-  ), [appColors, navigation, t]);
+      </Pressable>
+    ),
+    [appColors, navigation, t]
+  );
 
   // Not logged in - show sign-in prompt
   if (!user) {
     return (
-      <SafeAreaView style={[styles.container, { backgroundColor: appColors.background }]} edges={['left', 'right']}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: appColors.background }]}
+        edges={['left', 'right']}
+      >
         <View style={styles.centered}>
-          <Text style={[styles.loginPrompt, { color: appColors.textSecondary }]}>
+          <Text
+            style={[styles.loginPrompt, { color: appColors.textSecondary }]}
+          >
             {t('histories.loginPrompt')}
           </Text>
           <Pressable
-            style={[styles.signInButton, { backgroundColor: appColors.primary }]}
+            style={[
+              styles.signInButton,
+              { backgroundColor: appColors.primary },
+            ]}
             onPress={() => setShowAuthModal(true)}
-            accessibilityRole="button"
+            accessibilityRole='button'
             accessibilityLabel={t('auth.signIn')}
           >
             <Text style={styles.signInButtonText}>{t('auth.signIn')}</Text>
@@ -139,7 +151,7 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
         <AuthModal
           visible={showAuthModal}
           onDismiss={() => setShowAuthModal(false)}
-          initialMode="signin"
+          initialMode='signin'
         />
       </SafeAreaView>
     );
@@ -147,20 +159,37 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
 
   // Logged in - show histories
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: appColors.background }]} edges={['left', 'right']}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: appColors.background }]}
+      edges={['left', 'right']}
+    >
       {/* Stats Section */}
-      <View style={[styles.statsContainer, { backgroundColor: appColors.card }]}>
+      <View
+        style={[styles.statsContainer, { backgroundColor: appColors.card }]}
+      >
         <View style={styles.statItem}>
-          <Text style={[styles.statValue, { color: appColors.primary }]}>{userTotal.toFixed(2)}</Text>
-          <Text style={[styles.statLabel, { color: appColors.textMuted }]}>{t('histories.yourTotal')}</Text>
+          <Text style={[styles.statValue, { color: appColors.primary }]}>
+            {userTotal.toFixed(2)}
+          </Text>
+          <Text style={[styles.statLabel, { color: appColors.textMuted }]}>
+            {t('histories.yourTotal')}
+          </Text>
         </View>
         <View style={styles.statItem}>
-          <Text style={[styles.statValue, { color: appColors.primary }]}>{total.toFixed(2)}</Text>
-          <Text style={[styles.statLabel, { color: appColors.textMuted }]}>{t('histories.globalTotal')}</Text>
+          <Text style={[styles.statValue, { color: appColors.primary }]}>
+            {total.toFixed(2)}
+          </Text>
+          <Text style={[styles.statLabel, { color: appColors.textMuted }]}>
+            {t('histories.globalTotal')}
+          </Text>
         </View>
         <View style={styles.statItem}>
-          <Text style={[styles.statValue, { color: appColors.primary }]}>{percentage.toFixed(1)}%</Text>
-          <Text style={[styles.statLabel, { color: appColors.textMuted }]}>{t('histories.percentage')}</Text>
+          <Text style={[styles.statValue, { color: appColors.primary }]}>
+            {percentage.toFixed(1)}%
+          </Text>
+          <Text style={[styles.statLabel, { color: appColors.textMuted }]}>
+            {t('histories.percentage')}
+          </Text>
         </View>
       </View>
 
@@ -169,7 +198,7 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
         <Pressable
           style={[styles.addButton, { backgroundColor: appColors.primary }]}
           onPress={() => setShowAddModal(true)}
-          accessibilityRole="button"
+          accessibilityRole='button'
           accessibilityLabel={t('histories.add')}
         >
           <Text style={styles.addButtonText}>+ {t('histories.add')}</Text>
@@ -179,7 +208,7 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
       {/* Histories List */}
       {isLoading ? (
         <View style={styles.centered}>
-          <ActivityIndicator size="large" color={appColors.primary} />
+          <ActivityIndicator size='large' color={appColors.primary} />
         </View>
       ) : histories.length === 0 ? (
         <View style={styles.centered}>
@@ -190,9 +219,12 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
       ) : (
         <FlatList
           data={histories}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           renderItem={renderHistoryItem}
-          contentContainerStyle={[styles.listContent, { paddingBottom: tabBarHeight + 16 }]}
+          contentContainerStyle={[
+            styles.listContent,
+            { paddingBottom: tabBarHeight + 16 },
+          ]}
           ItemSeparatorComponent={ListSeparator}
           onRefresh={handleRefresh}
           refreshing={isRefreshing}
@@ -202,43 +234,79 @@ export default function HistoriesScreen({ navigation }: HistoriesListScreenProps
       {/* Add History Modal */}
       <Modal
         visible={showAddModal}
-        animationType="slide"
-        presentationStyle="pageSheet"
+        animationType='slide'
+        presentationStyle='pageSheet'
         onRequestClose={() => setShowAddModal(false)}
       >
-        <SafeAreaView style={[styles.modalContainer, { backgroundColor: appColors.background }]}>
-          <View style={[styles.modalHeader, { borderBottomColor: appColors.border, backgroundColor: appColors.card }]}>
-            <Pressable onPress={() => setShowAddModal(false)} accessibilityRole="button" accessibilityLabel={t('common.cancel')}>
-              <Text style={[styles.modalCancel, { color: appColors.primary }]}>{t('common.cancel')}</Text>
+        <SafeAreaView
+          style={[
+            styles.modalContainer,
+            { backgroundColor: appColors.background },
+          ]}
+        >
+          <View
+            style={[
+              styles.modalHeader,
+              {
+                borderBottomColor: appColors.border,
+                backgroundColor: appColors.card,
+              },
+            ]}
+          >
+            <Pressable
+              onPress={() => setShowAddModal(false)}
+              accessibilityRole='button'
+              accessibilityLabel={t('common.cancel')}
+            >
+              <Text style={[styles.modalCancel, { color: appColors.primary }]}>
+                {t('common.cancel')}
+              </Text>
             </Pressable>
-            <Text style={[styles.modalTitle, { color: appColors.text }]}>{t('histories.add')}</Text>
+            <Text style={[styles.modalTitle, { color: appColors.text }]}>
+              {t('histories.add')}
+            </Text>
             <View style={styles.modalHeaderSpacer} />
           </View>
 
           <View style={styles.modalContent}>
-            <Text style={[styles.fieldLabel, { color: appColors.text }]}>{t('histories.value')}</Text>
+            <Text style={[styles.fieldLabel, { color: appColors.text }]}>
+              {t('histories.value')}
+            </Text>
             <TextInput
-              style={[styles.input, { backgroundColor: appColors.card, borderColor: appColors.border, color: appColors.text }]}
-              placeholder="0.00"
+              style={[
+                styles.input,
+                {
+                  backgroundColor: appColors.card,
+                  borderColor: appColors.border,
+                  color: appColors.text,
+                },
+              ]}
+              placeholder='0.00'
               placeholderTextColor={appColors.textMuted}
               value={newValue}
               onChangeText={setNewValue}
-              keyboardType="decimal-pad"
+              keyboardType='decimal-pad'
               autoFocus
               accessibilityLabel={t('histories.value')}
             />
 
             <Pressable
-              style={[styles.submitButton, { backgroundColor: appColors.primary }, isSubmitting && styles.buttonDisabled]}
+              style={[
+                styles.submitButton,
+                { backgroundColor: appColors.primary },
+                isSubmitting && styles.buttonDisabled,
+              ]}
               onPress={handleAddHistory}
               disabled={isSubmitting}
-              accessibilityRole="button"
+              accessibilityRole='button'
               accessibilityLabel={t('histories.create')}
             >
               {isSubmitting ? (
-                <ActivityIndicator size="small" color="#ffffff" />
+                <ActivityIndicator size='small' color='#ffffff' />
               ) : (
-                <Text style={styles.submitButtonText}>{t('histories.create')}</Text>
+                <Text style={styles.submitButtonText}>
+                  {t('histories.create')}
+                </Text>
               )}
             </Pressable>
           </View>

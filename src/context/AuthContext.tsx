@@ -135,7 +135,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async firebaseUser => {
       setUser(toAuthUser(firebaseUser));
       setRawUser(firebaseUser);
 
@@ -188,27 +188,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const signInWithEmail = useCallback(async (email: string, password: string) => {
-    const auth = getFirebaseAuth();
-    if (!auth) throw new Error('Firebase not configured');
-    setIsLoading(true);
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const signInWithEmail = useCallback(
+    async (email: string, password: string) => {
+      const auth = getFirebaseAuth();
+      if (!auth) throw new Error('Firebase not configured');
+      setIsLoading(true);
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
-  const signUpWithEmail = useCallback(async (email: string, password: string) => {
-    const auth = getFirebaseAuth();
-    if (!auth) throw new Error('Firebase not configured');
-    setIsLoading(true);
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const signUpWithEmail = useCallback(
+    async (email: string, password: string) => {
+      const auth = getFirebaseAuth();
+      if (!auth) throw new Error('Firebase not configured');
+      setIsLoading(true);
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
 
   const signOut = useCallback(async () => {
     const auth = getFirebaseAuth();
@@ -239,35 +245,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [rawUser]);
 
-  const value = useMemo<AuthContextValue>(() => ({
-    user,
-    isLoading,
-    isReady,
-    token,
-    signInWithGoogle,
-    signInWithEmail,
-    signUpWithEmail,
-    signOut,
-    sendPasswordResetEmail,
-    refreshToken,
-  }), [
-    user,
-    isLoading,
-    isReady,
-    token,
-    signInWithGoogle,
-    signInWithEmail,
-    signUpWithEmail,
-    signOut,
-    sendPasswordResetEmail,
-    refreshToken,
-  ]);
-
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo<AuthContextValue>(
+    () => ({
+      user,
+      isLoading,
+      isReady,
+      token,
+      signInWithGoogle,
+      signInWithEmail,
+      signUpWithEmail,
+      signOut,
+      sendPasswordResetEmail,
+      refreshToken,
+    }),
+    [
+      user,
+      isLoading,
+      isReady,
+      token,
+      signInWithGoogle,
+      signInWithEmail,
+      signUpWithEmail,
+      signOut,
+      sendPasswordResetEmail,
+      refreshToken,
+    ]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 /**

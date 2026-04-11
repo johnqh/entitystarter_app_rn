@@ -4,7 +4,13 @@
  * Verifies that exported constant values are defined and well-formed.
  */
 
-import { APP_NAME, DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES, STORAGE_KEYS, TAB_NAMES } from '../constants';
+import {
+  APP_NAME,
+  DEFAULT_LANGUAGE,
+  SUPPORTED_LANGUAGES,
+  STORAGE_KEYS,
+  TAB_NAMES,
+} from '../constants';
 
 describe('constants', () => {
   it('should export a non-empty APP_NAME', () => {

@@ -46,7 +46,11 @@ export interface AuthModalProps {
  *
  * @param props - {@link AuthModalProps}
  */
-export default function AuthModal({ visible, onDismiss, initialMode = 'signin' }: AuthModalProps) {
+export default function AuthModal({
+  visible,
+  onDismiss,
+  initialMode = 'signin',
+}: AuthModalProps) {
   const { t } = useTranslation();
   const appColors = useAppColors();
   const { signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
@@ -87,7 +91,15 @@ export default function AuthModal({ visible, onDismiss, initialMode = 'signin' }
     } finally {
       setIsSubmitting(false);
     }
-  }, [email, password, authMode, signInWithEmail, signUpWithEmail, t, handleDismiss]);
+  }, [
+    email,
+    password,
+    authMode,
+    signInWithEmail,
+    signUpWithEmail,
+    t,
+    handleDismiss,
+  ]);
 
   /** Initiate Google Sign-In via the PKCE OAuth flow. */
   const handleGoogleSignIn = useCallback(async () => {
@@ -98,7 +110,10 @@ export default function AuthModal({ visible, onDismiss, initialMode = 'signin' }
       handleDismiss();
     } catch (error: unknown) {
       const authErr = error as { message?: string; code?: string };
-      if (authErr.code !== 'SIGN_IN_CANCELLED' && authErr.code !== 'sign_in_cancelled') {
+      if (
+        authErr.code !== 'SIGN_IN_CANCELLED' &&
+        authErr.code !== 'sign_in_cancelled'
+      ) {
         setAuthError(authErr.message || t('auth.error'));
       }
     } finally {
@@ -107,10 +122,26 @@ export default function AuthModal({ visible, onDismiss, initialMode = 'signin' }
   }, [signInWithGoogle, t, handleDismiss]);
 
   const modalContent = (
-    <SafeAreaView style={[styles.modalContainer, { backgroundColor: appColors.background }]}>
-      <View style={[styles.modalHeader, { borderBottomColor: appColors.border, backgroundColor: appColors.card }]}>
-        <Pressable onPress={handleDismiss} accessibilityRole="button" accessibilityLabel={t('common.cancel')}>
-          <Text style={[styles.modalCancel, { color: appColors.primary }]}>{t('common.cancel')}</Text>
+    <SafeAreaView
+      style={[styles.modalContainer, { backgroundColor: appColors.background }]}
+    >
+      <View
+        style={[
+          styles.modalHeader,
+          {
+            borderBottomColor: appColors.border,
+            backgroundColor: appColors.card,
+          },
+        ]}
+      >
+        <Pressable
+          onPress={handleDismiss}
+          accessibilityRole='button'
+          accessibilityLabel={t('common.cancel')}
+        >
+          <Text style={[styles.modalCancel, { color: appColors.primary }]}>
+            {t('common.cancel')}
+          </Text>
         </Pressable>
         <Text style={[styles.modalTitle, { color: appColors.text }]}>
           {authMode === 'signin' ? t('auth.signIn') : t('auth.signUp')}
@@ -120,62 +151,100 @@ export default function AuthModal({ visible, onDismiss, initialMode = 'signin' }
 
       <View style={styles.modalContent}>
         <Pressable
-          style={[styles.googleButton, { backgroundColor: appColors.card, borderColor: appColors.border }, isSubmitting && styles.buttonDisabled]}
+          style={[
+            styles.googleButton,
+            { backgroundColor: appColors.card, borderColor: appColors.border },
+            isSubmitting && styles.buttonDisabled,
+          ]}
           onPress={handleGoogleSignIn}
           disabled={isSubmitting}
-          accessibilityRole="button"
+          accessibilityRole='button'
           accessibilityLabel={t('auth.continueWithGoogle')}
         >
           <GoogleIcon size={20} />
-          <Text style={[styles.googleButtonText, { color: appColors.textSecondary }]}>
+          <Text
+            style={[
+              styles.googleButtonText,
+              { color: appColors.textSecondary },
+            ]}
+          >
             {t('auth.continueWithGoogle')}
           </Text>
         </Pressable>
 
         <View style={styles.dividerRow}>
-          <View style={[styles.dividerLine, { backgroundColor: appColors.border }]} />
-          <Text style={[styles.dividerText, { color: appColors.textMuted }]}>{t('common.or')}</Text>
-          <View style={[styles.dividerLine, { backgroundColor: appColors.border }]} />
+          <View
+            style={[styles.dividerLine, { backgroundColor: appColors.border }]}
+          />
+          <Text style={[styles.dividerText, { color: appColors.textMuted }]}>
+            {t('common.or')}
+          </Text>
+          <View
+            style={[styles.dividerLine, { backgroundColor: appColors.border }]}
+          />
         </View>
 
         <TextInput
-          style={[styles.input, { backgroundColor: appColors.card, borderColor: appColors.border, color: appColors.text }]}
+          style={[
+            styles.input,
+            {
+              backgroundColor: appColors.card,
+              borderColor: appColors.border,
+              color: appColors.text,
+            },
+          ]}
           placeholder={t('auth.email')}
           placeholderTextColor={appColors.textMuted}
           value={email}
           onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-          autoComplete="email"
+          autoCapitalize='none'
+          keyboardType='email-address'
+          autoComplete='email'
           accessibilityLabel={t('auth.email')}
         />
 
         <TextInput
-          style={[styles.input, { backgroundColor: appColors.card, borderColor: appColors.border, color: appColors.text }]}
+          style={[
+            styles.input,
+            {
+              backgroundColor: appColors.card,
+              borderColor: appColors.border,
+              color: appColors.text,
+            },
+          ]}
           placeholder={t('auth.password')}
           placeholderTextColor={appColors.textMuted}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-          autoComplete="password"
+          autoComplete='password'
           accessibilityLabel={t('auth.password')}
         />
 
         {authError && (
-          <Text style={[styles.errorText, { color: appColors.error }]} accessibilityRole="alert">
+          <Text
+            style={[styles.errorText, { color: appColors.error }]}
+            accessibilityRole='alert'
+          >
             {authError}
           </Text>
         )}
 
         <Pressable
-          style={[styles.submitButton, { backgroundColor: appColors.primary }, isSubmitting && styles.buttonDisabled]}
+          style={[
+            styles.submitButton,
+            { backgroundColor: appColors.primary },
+            isSubmitting && styles.buttonDisabled,
+          ]}
           onPress={handleAuthSubmit}
           disabled={isSubmitting}
-          accessibilityRole="button"
-          accessibilityLabel={authMode === 'signin' ? t('auth.signIn') : t('auth.signUp')}
+          accessibilityRole='button'
+          accessibilityLabel={
+            authMode === 'signin' ? t('auth.signIn') : t('auth.signUp')
+          }
         >
           {isSubmitting ? (
-            <ActivityIndicator size="small" color="#ffffff" />
+            <ActivityIndicator size='small' color='#ffffff' />
           ) : (
             <Text style={styles.submitButtonText}>
               {authMode === 'signin' ? t('auth.signIn') : t('auth.signUp')}
@@ -184,12 +253,18 @@ export default function AuthModal({ visible, onDismiss, initialMode = 'signin' }
         </Pressable>
 
         <Pressable
-          onPress={() => setAuthMode(authMode === 'signin' ? 'signup' : 'signin')}
+          onPress={() =>
+            setAuthMode(authMode === 'signin' ? 'signup' : 'signin')
+          }
           style={styles.switchAuthMode}
-          accessibilityRole="button"
-          accessibilityLabel={authMode === 'signin' ? t('auth.noAccount') : t('auth.hasAccount')}
+          accessibilityRole='button'
+          accessibilityLabel={
+            authMode === 'signin' ? t('auth.noAccount') : t('auth.hasAccount')
+          }
         >
-          <Text style={[styles.switchAuthModeText, { color: appColors.primary }]}>
+          <Text
+            style={[styles.switchAuthModeText, { color: appColors.primary }]}
+          >
             {authMode === 'signin' ? t('auth.noAccount') : t('auth.hasAccount')}
           </Text>
         </Pressable>
@@ -206,8 +281,8 @@ export default function AuthModal({ visible, onDismiss, initialMode = 'signin' }
   return (
     <Modal
       visible={visible}
-      animationType="slide"
-      presentationStyle="pageSheet"
+      animationType='slide'
+      presentationStyle='pageSheet'
       onRequestClose={handleDismiss}
     >
       {modalContent}

@@ -13,7 +13,22 @@ export const DEFAULT_LANGUAGE = 'en';
 
 // Supported languages
 export const SUPPORTED_LANGUAGES = [
-  'en', 'ar', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pt', 'ru', 'sv', 'th', 'uk', 'vi', 'zh', 'zh-Hant',
+  'en',
+  'ar',
+  'de',
+  'es',
+  'fr',
+  'it',
+  'ja',
+  'ko',
+  'pt',
+  'ru',
+  'sv',
+  'th',
+  'uk',
+  'vi',
+  'zh',
+  'zh-Hant',
 ];
 
 // Storage keys

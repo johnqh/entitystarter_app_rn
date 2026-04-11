@@ -14,12 +14,12 @@ export function HistoriesStack() {
       }}
     >
       <Stack.Screen
-        name="HistoriesList"
+        name='HistoriesList'
         component={HistoriesScreen}
         options={{ title: 'Histories' }}
       />
       <Stack.Screen
-        name="HistoryDetail"
+        name='HistoryDetail'
         component={HistoryDetailScreen}
         options={{ title: 'History Detail' }}
       />
