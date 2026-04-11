@@ -1,92 +1,20 @@
 /**
  * i18n Configuration for Starter App
  *
- * Simple i18next setup with embedded translations.
+ * Loads translations from assets/locales and configures i18next.
  */
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { getLocales } from 'react-native-localize';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COMPANY_NAME } from '@/config/constants';
+import { resources } from '@/assets/locales';
 
 const SUPPORTED_LANGUAGES = [
   'en', 'ar', 'de', 'es', 'fr', 'it', 'ja', 'ko', 'pt', 'ru', 'sv', 'th', 'uk', 'vi', 'zh', 'zh-Hant',
 ] as const;
 
 const LANGUAGE_STORAGE_KEY = '@starter/language';
-
-// Embedded translations
-const resources = {
-  en: {
-    translation: {
-      common: {
-        loading: 'Loading...',
-        error: 'Error',
-        cancel: 'Cancel',
-        delete: 'Delete',
-        back: 'Back',
-        or: 'or',
-      },
-      histories: {
-        title: 'Histories',
-        loginPrompt: 'Sign in to view and manage your histories.',
-        add: 'Add History',
-        create: 'Create',
-        empty: 'No histories yet. Add your first one!',
-        detail: 'History Detail',
-        notFound: 'History not found.',
-        datetime: 'Date & Time',
-        value: 'Value',
-        createdAt: 'Created At',
-        yourTotal: 'Your Total',
-        globalTotal: 'Global Total',
-        percentage: 'Your Share',
-        deleteConfirm: 'Are you sure you want to delete this history?',
-      },
-      settings: {
-        title: 'Settings',
-        appearance: 'Appearance',
-        theme: {
-          label: 'Theme',
-          system: 'System',
-          light: 'Light',
-          dark: 'Dark',
-        },
-        selectTheme: 'Select Theme',
-        themeDescription: 'App color scheme',
-        language: 'Language',
-        languageDescription: 'Select your preferred language',
-        account: 'Account',
-        signInDescription: 'Sync data across devices',
-        about: 'About',
-        version: 'Version 1.0.0',
-        copyright: `2024 ${COMPANY_NAME}`,
-      },
-      auth: {
-        signIn: 'Sign In',
-        signUp: 'Sign Up',
-        signOut: 'Sign Out',
-        signOutConfirm: 'Are you sure you want to sign out?',
-        email: 'Email',
-        password: 'Password',
-        continueWithGoogle: 'Continue with Google',
-        noAccount: "Don't have an account? Sign Up",
-        hasAccount: 'Already have an account? Sign In',
-        fillAllFields: 'Please fill in all fields',
-        error: 'An error occurred',
-        guest: 'Guest',
-        signedIn: 'Signed In',
-        createAccount: 'Create Account',
-        createAccountDescription: 'Save your data and sync across devices',
-      },
-      tabs: {
-        histories: 'Histories',
-        settings: 'Settings',
-      },
-    },
-  },
-};
 
 // Detect the best initial language
 function getInitialLanguage(): string {

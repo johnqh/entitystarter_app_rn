@@ -23,7 +23,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useSettingsStore, type ThemeMode } from '@/stores/settingsStore';
 import { useAppColors } from '@/hooks/useAppColors';
 import { changeLanguage } from '@/i18n';
-import { SUPPORTED_LANGUAGES } from '@/config/constants';
+import { SUPPORTED_LANGUAGES, COMPANY_NAME } from '@/config/constants';
 import AuthModal from '@/components/AuthModal';
 import type { SettingsScreenProps } from '@/navigation/types';
 
@@ -229,7 +229,7 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
             {t('settings.version')}
           </Text>
           <Text style={[styles.copyrightText, { color: appColors.textMuted }]}>
-            {t('settings.copyright')}
+            {t('settings.copyright', { companyName: COMPANY_NAME })}
           </Text>
         </View>
       </ScrollView>

@@ -19,6 +19,7 @@ module.exports = {
           '@/services': './src/services',
           '@/native': './src/native',
           '@/di': './src/di',
+          '@/assets': './assets',
         },
       },
     ],
