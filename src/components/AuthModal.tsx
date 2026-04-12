@@ -12,7 +12,7 @@
  * ```
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -27,6 +27,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 import { useAppColors } from '@/hooks/useAppColors';
+import { trackScreenView, trackButtonClick, trackError } from '@/analytics';
 import GoogleIcon from '@/components/GoogleIcon';
 
 /** Props for the AuthModal component. */
@@ -61,6 +62,13 @@ export default function AuthModal({
   const [authError, setAuthError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Analytics: track screen view when modal opens
+  useEffect(() => {
+    if (visible) {
+      trackScreenView('AuthModal', 'AuthModal');
+    }
+  }, [visible]);
+
   /** Reset form state when the modal closes. */
   const handleDismiss = useCallback(() => {
     setEmail('');
@@ -72,6 +80,7 @@ export default function AuthModal({
 
   /** Submit email/password authentication (sign-in or sign-up). */
   const handleAuthSubmit = useCallback(async () => {
+    trackButtonClick(`auth_${authMode}_email`, { screen: 'AuthModal' });
     if (!email.trim() || !password.trim()) {
       setAuthError(t('auth.fillAllFields'));
       return;
@@ -87,7 +96,9 @@ export default function AuthModal({
       handleDismiss();
     } catch (error: unknown) {
       const authErr = error as { message?: string };
-      setAuthError(authErr.message || t('auth.error'));
+      const message = authErr.message || t('auth.error');
+      trackError(message, `auth_${authMode}_error`);
+      setAuthError(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -103,6 +114,7 @@ export default function AuthModal({
 
   /** Initiate Google Sign-In via the PKCE OAuth flow. */
   const handleGoogleSignIn = useCallback(async () => {
+    trackButtonClick('auth_google_sign_in', { screen: 'AuthModal' });
     setIsSubmitting(true);
     setAuthError(null);
     try {
@@ -114,7 +126,9 @@ export default function AuthModal({
         authErr.code !== 'SIGN_IN_CANCELLED' &&
         authErr.code !== 'sign_in_cancelled'
       ) {
-        setAuthError(authErr.message || t('auth.error'));
+        const message = authErr.message || t('auth.error');
+        trackError(message, 'auth_google_error');
+        setAuthError(message);
       }
     } finally {
       setIsSubmitting(false);
@@ -253,9 +267,11 @@ export default function AuthModal({
         </Pressable>
 
         <Pressable
-          onPress={() =>
-            setAuthMode(authMode === 'signin' ? 'signup' : 'signin')
-          }
+          onPress={() => {
+            const newMode = authMode === 'signin' ? 'signup' : 'signin';
+            trackButtonClick('auth_switch_mode', { screen: 'AuthModal', newMode });
+            setAuthMode(newMode);
+          }}
           style={styles.switchAuthMode}
           accessibilityRole='button'
           accessibilityLabel={

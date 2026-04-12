@@ -5,19 +5,21 @@
  * No native Firebase analytics or DI services are available on desktop.
  */
 
+import type { FirebaseAnalyticsService } from '@sudobility/di_rn';
+
 /**
  * Initialize all services (desktop no-op).
  *
  * On desktop, Firebase Auth is initialized lazily in AuthContext using the
  * Firebase JS SDK. Native analytics and DI services are not available.
  */
-export async function initializeAllServices(): Promise<null> {
+export async function initializeAllServices(): Promise<FirebaseAnalyticsService | null> {
   return null;
 }
 
 /**
  * Get the analytics service (not available on desktop)
  */
-export function getAnalytics(): null {
+export function getAnalytics(): FirebaseAnalyticsService | null {
   return null;
 }

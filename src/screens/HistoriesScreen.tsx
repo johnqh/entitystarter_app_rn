@@ -6,7 +6,7 @@
  * pull-to-refresh, and an "add history" modal.
  */
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -26,6 +26,7 @@ import { useApi } from '@/context/ApiContext';
 import { useHistoriesManager } from '@sudobility/entitystarter_lib';
 import { useAppColors } from '@/hooks/useAppColors';
 import AuthModal from '@/components/AuthModal';
+import { trackScreenView, trackButtonClick, trackError } from '@/analytics';
 import type { HistoriesListScreenProps } from '@/navigation/types';
 import type { History } from '@sudobility/entitystarter_types';
 
@@ -57,6 +58,11 @@ export default function HistoriesScreen({
   // Pull-to-refresh state
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  // Analytics: track screen view
+  useEffect(() => {
+    trackScreenView('HistoriesScreen', 'HistoriesScreen');
+  }, []);
+
   /** Handle pull-to-refresh on the histories FlatList. */
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -86,6 +92,7 @@ export default function HistoriesScreen({
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : 'Failed to create history.';
+      trackError(message, 'create_history_error');
       Alert.alert('Error', message);
     } finally {
       setIsSubmitting(false);
@@ -140,7 +147,10 @@ export default function HistoriesScreen({
               styles.signInButton,
               { backgroundColor: appColors.primary },
             ]}
-            onPress={() => setShowAuthModal(true)}
+            onPress={() => {
+              trackButtonClick('sign_in', { screen: 'HistoriesScreen' });
+              setShowAuthModal(true);
+            }}
             accessibilityRole='button'
             accessibilityLabel={t('auth.signIn')}
           >
@@ -197,7 +207,10 @@ export default function HistoriesScreen({
       <View style={styles.addButtonContainer}>
         <Pressable
           style={[styles.addButton, { backgroundColor: appColors.primary }]}
-          onPress={() => setShowAddModal(true)}
+          onPress={() => {
+            trackButtonClick('add_history', { screen: 'HistoriesScreen' });
+            setShowAddModal(true);
+          }}
           accessibilityRole='button'
           accessibilityLabel={t('histories.add')}
         >
@@ -296,7 +309,10 @@ export default function HistoriesScreen({
                 { backgroundColor: appColors.primary },
                 isSubmitting && styles.buttonDisabled,
               ]}
-              onPress={handleAddHistory}
+              onPress={() => {
+                trackButtonClick('create_history', { screen: 'HistoriesScreen' });
+                handleAddHistory();
+              }}
               disabled={isSubmitting}
               accessibilityRole='button'
               accessibilityLabel={t('histories.create')}

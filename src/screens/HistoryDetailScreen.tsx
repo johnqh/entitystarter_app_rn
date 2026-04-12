@@ -5,7 +5,7 @@
  * and provides a delete action with confirmation.
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { useApi } from '@/context/ApiContext';
 import { useHistoriesManager } from '@sudobility/entitystarter_lib';
 import { useAppColors } from '@/hooks/useAppColors';
+import { trackScreenView, trackButtonClick, trackError } from '@/analytics';
 import type { HistoryDetailScreenProps } from '@/navigation/types';
 
 export default function HistoryDetailScreen({
@@ -39,8 +40,14 @@ export default function HistoryDetailScreen({
 
   const history = histories.find(h => h.id === historyId);
 
+  // Analytics: track screen view
+  useEffect(() => {
+    trackScreenView('HistoryDetailScreen', 'HistoryDetailScreen');
+  }, []);
+
   /** Confirm and execute deletion of the current history entry. */
   const handleDelete = useCallback(() => {
+    trackButtonClick('delete_history', { screen: 'HistoryDetailScreen', historyId });
     Alert.alert(t('common.delete'), t('histories.deleteConfirm'), [
       { text: t('common.cancel'), style: 'cancel' },
       {
@@ -55,6 +62,7 @@ export default function HistoryDetailScreen({
               error instanceof Error
                 ? error.message
                 : 'Failed to delete history.';
+            trackError(message, 'delete_history_error');
             Alert.alert('Error', message);
           }
         },

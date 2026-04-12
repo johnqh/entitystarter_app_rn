@@ -5,7 +5,7 @@
  * and about section. Uses the shared AuthModal for authentication flows.
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -25,6 +25,7 @@ import { useAppColors } from '@/hooks/useAppColors';
 import { changeLanguage } from '@/i18n';
 import { SUPPORTED_LANGUAGES, COMPANY_NAME } from '@/config/constants';
 import AuthModal from '@/components/AuthModal';
+import { trackScreenView, trackButtonClick, trackError } from '@/analytics';
 import type { SettingsScreenProps } from '@/navigation/types';
 
 /** Display names for supported languages (in their native script). */
@@ -65,8 +66,14 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
   // Auth modal state
   const [showAuthModal, setShowAuthModal] = useState(false);
 
+  // Analytics: track screen view
+  useEffect(() => {
+    trackScreenView('SettingsScreen', 'SettingsScreen');
+  }, []);
+
   /** Show an alert to pick a theme mode. */
   const handleThemeChange = useCallback(() => {
+    trackButtonClick('change_theme', { screen: 'SettingsScreen', currentTheme: theme });
     const currentIndex = themes.findIndex(th => th.value === theme);
 
     Alert.alert(t('settings.selectTheme'), undefined, [
@@ -82,6 +89,7 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
 
   /** Show an alert to pick a language. */
   const handleLanguageChange = useCallback(() => {
+    trackButtonClick('change_language', { screen: 'SettingsScreen', currentLanguage: i18n.language });
     const activeLang = i18n.language;
     Alert.alert(t('settings.language'), undefined, [
       ...SUPPORTED_LANGUAGES.map(lang => ({
@@ -96,6 +104,7 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
 
   /** Confirm and execute sign-out. */
   const handleSignOut = useCallback(async () => {
+    trackButtonClick('sign_out', { screen: 'SettingsScreen' });
     Alert.alert(t('auth.signOut'), t('auth.signOutConfirm'), [
       { text: t('common.cancel'), style: 'cancel' },
       {
@@ -105,6 +114,8 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
           try {
             await signOut();
           } catch (error) {
+            const message = error instanceof Error ? error.message : 'Sign out failed';
+            trackError(message, 'sign_out_error');
             console.error('Sign out error:', error);
           }
         },
@@ -235,6 +246,7 @@ export default function SettingsScreen(_props: SettingsScreenProps) {
               <Pressable
                 style={styles.settingRow}
                 onPress={() => {
+                  trackButtonClick('sign_in', { screen: 'SettingsScreen' });
                   setShowAuthModal(true);
                 }}
                 accessibilityRole='button'
