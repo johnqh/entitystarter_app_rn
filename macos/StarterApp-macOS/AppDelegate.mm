@@ -1,6 +1,7 @@
 #import "AppDelegate.h"
 
 #import <React/RCTBundleURLProvider.h>
+#import <React/RCTLinkingManager.h>
 #import <ReactAppDependencyProvider/RCTAppDependencyProvider.h>
 
 @implementation AppDelegate
@@ -10,6 +11,13 @@
   self.moduleName = @"main";
   self.initialProps = @{};
   self.dependencyProvider = [RCTAppDependencyProvider new];
+
+  // Register URL scheme handler for deep linking
+  [[NSAppleEventManager sharedAppleEventManager]
+    setEventHandler:[RCTLinkingManager class]
+        andSelector:@selector(getUrlEventHandler:withReplyEvent:)
+      forEventClass:kInternetEventClass
+         andEventID:kAEGetURL];
 
   [super applicationDidFinishLaunching:notification];
 
